@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Gift {
+  id            Int             @id @default(autoincrement())
+  name          String
+  description   String?
+  price         Decimal         @db.Decimal(10, 2)
+  image_url     String?
+  category      String?
+  display_order Int?
+  active        Boolean         @default(true)
+  created_at    DateTime        @default(now())
+  contributions Contribution[]
+
+  @@map("gifts")
+}
+
+model Contribution {
+  id             Int       @id @default(autoincrement())
+  gift_id        Int?
+  gift           Gift?     @relation(fields: [gift_id], references: [id])
+  guest_name     String
+  guest_email    String
+  guest_phone    String?
+  message        String?
+  amount         Decimal   @db.Decimal(10, 2)
+  payment_method String? // 'pix' | 'credit_card'
+  payment_status String    @default("pending") // 'pending' | 'paid' | 'failed'
+  payment_id     String? // ID do Abacate Pay
+  created_at     DateTime  @default(now())
+  paid_at        DateTime?
+
+  @@map("contributions")
+}
+
+model Admin {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+
+  @@map("admins")
+}

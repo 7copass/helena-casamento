@@ -1,26 +1,79 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-montserrat);
+  --font-serif: var(--font-cormorant);
+  --font-script: var(--font-pinyon-script);
+  --font-heading: var(--font-cormorant);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: #FFFFFF;
+  --foreground: #4A5647; /* Dark Sage Green */
+  --card: #FFFFFF;
+  --card-foreground: #4A5647;
+  --popover: #FFFFFF;
+  --popover-foreground: #4A5647;
+  --primary: #6B7E68; /* Sage Green from Border/Text */
+  --primary-foreground: #FFFFFF;
+  --secondary: #B5A285; /* Beige/Gold from the number 30 */
+  --secondary-foreground: #FFFFFF;
+  --muted: #F2F4F0; /* Very light sage for backgrounds */
+  --muted-foreground: #7E8C7A;
+  --accent: #E5C454; /* Yellow from Roses */
+  --accent-foreground: #4A5647;
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --border: #6B7E68; /* Sage Green Border */
+  --input: #D2D9CE;
+  --ring: #B5A285;
+  --radius: 0.25rem; /* Less rounded, more classic */
+}
+
+.dark {
+  /* Minimal dark mode support if needed - keeping it light preferred for weddings */
+  --background: #2B302B;
+  --foreground: #F2F4F0;
+  --card: #3A423A;
+  --card-foreground: #F2F4F0;
+  --primary: #8DA689;
+  --primary-foreground: #2B302B;
+  --border: #4A5647;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-light text-foreground;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
 }
