@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Gift } from "@prisma/client";
 
 interface GiftCardProps {
   gift: Gift;
 }
 
-type Step = "form" | "pix";
+type Step = "form" | "pix" | "success";
 
 interface PixData {
   id: string;
@@ -24,6 +24,7 @@ export function GiftCard({ gift }: GiftCardProps) {
   const [error, setError] = useState<string | null>(null);
   const [pix, setPix] = useState<PixData | null>(null);
   const [copied, setCopied] = useState(false);
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const formattedPrice = new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -42,6 +43,36 @@ export function GiftCard({ gift }: GiftCardProps) {
 
   function closeModal() {
     setOpen(false);
+    if (pollRef.current) {
+      clearInterval(pollRef.current);
+      pollRef.current = null;
+    }
+  }
+
+  function startPolling(pixId: string) {
+    let attempts = 0;
+    const MAX_ATTEMPTS = 120; // 10 minutes at 5s intervals
+
+    pollRef.current = setInterval(async () => {
+      attempts++;
+      if (attempts > MAX_ATTEMPTS) {
+        clearInterval(pollRef.current!);
+        pollRef.current = null;
+        return;
+      }
+      try {
+        const res = await fetch(`/api/checkout/status?id=${pixId}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.status === "PAID" || data.status === "COMPLETED") {
+          clearInterval(pollRef.current!);
+          pollRef.current = null;
+          setStep("success");
+        }
+      } catch {
+        // silently retry
+      }
+    }, 5000);
   }
 
   useEffect(() => {
@@ -77,6 +108,7 @@ export function GiftCard({ gift }: GiftCardProps) {
       }
       setPix(data);
       setStep("pix");
+      startPolling(data.id);
     } catch {
       setError("Erro de conexão. Tente novamente.");
     } finally {
@@ -225,6 +257,33 @@ export function GiftCard({ gift }: GiftCardProps) {
                 <p className="text-[10px] text-foreground/40 font-sans mt-4">
                   O código expira em 1 hora.
                 </p>
+              </div>
+            )}
+
+            {step === "success" && (
+              <div className="flex flex-col items-center text-center py-4">
+                <div className="text-4xl mb-4">🌿</div>
+                <p className="text-[9px] tracking-[0.3em] uppercase text-foreground/40 font-sans mb-3">
+                  Pagamento confirmado
+                </p>
+                <h2
+                  className="text-3xl text-primary mb-3"
+                  style={{ fontFamily: "var(--font-pinyon-script)" }}
+                >
+                  Obrigado!
+                </h2>
+                <p className="text-sm font-serif text-foreground/70 leading-relaxed mb-1">
+                  Seu presente foi registrado com carinho.
+                </p>
+                <p className="text-sm font-serif text-foreground/70 leading-relaxed mb-6">
+                  André e Maria Helena agradecem de coração. 💚
+                </p>
+                <button
+                  onClick={closeModal}
+                  className="bg-primary text-white text-[10px] font-sans font-medium tracking-[0.15em] uppercase px-8 py-3 hover:bg-primary/90 transition-all"
+                >
+                  Fechar
+                </button>
               </div>
             )}
           </div>
