@@ -3,9 +3,23 @@ import { NextRequest, NextResponse } from "next/server";
 const ABACATEPAY_API = "https://api.abacatepay.com/v2";
 
 export async function POST(req: NextRequest) {
-  const { giftId, giftName, amount, guestName, guestPhone } = await req.json();
+  let body: { giftId?: unknown; giftName?: unknown; amount?: unknown; guestName?: unknown; guestPhone?: unknown };
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Corpo da requisição inválido" }, { status: 400 });
+  }
 
-  if (!giftId || !giftName || !amount || !guestName || !guestPhone) {
+  const { giftId, giftName, amount, guestName, guestPhone } = body;
+
+  if (
+    !giftId ||
+    !giftName ||
+    typeof amount !== "number" ||
+    amount <= 0 ||
+    !guestName ||
+    !guestPhone
+  ) {
     return NextResponse.json({ error: "Campos obrigatórios faltando" }, { status: 400 });
   }
 
@@ -36,7 +50,7 @@ export async function POST(req: NextRequest) {
   if (!res.ok || json.error) {
     return NextResponse.json(
       { error: json.error ?? "Erro ao gerar PIX" },
-      { status: res.status }
+      { status: 502 }
     );
   }
 
