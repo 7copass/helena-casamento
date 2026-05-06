@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   const { giftId, giftName, amount, guestName, guestPhone } = body;
 
   if (
-    !giftId ||
+    giftId === undefined || giftId === null ||
     !giftName ||
     typeof amount !== "number" ||
     !Number.isInteger(amount) ||
