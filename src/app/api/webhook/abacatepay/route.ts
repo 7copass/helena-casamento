@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
         giftName,
         amount: typeof amount === "number" ? amount / 100 : undefined,
         paidAt: createdAt,
+        _raw: payload,
       }),
     });
 
