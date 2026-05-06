@@ -33,12 +33,11 @@ export async function POST(req: NextRequest) {
 
     if (!fwdRes.ok) {
       console.error("Webhook forward failed", fwdRes.status);
-      return NextResponse.json({ error: "Forward failed" }, { status: 502 });
     }
   } catch (err) {
     console.error("Webhook forward error", err);
-    return NextResponse.json({ error: "Forward error" }, { status: 500 });
   }
 
+  // Always return 200 so AbacatePay does not retry and send duplicate events
   return NextResponse.json({ received: true });
 }

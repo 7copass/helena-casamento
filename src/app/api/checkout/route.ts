@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
     !giftId ||
     !giftName ||
     typeof amount !== "number" ||
+    !Number.isInteger(amount) ||
     amount <= 0 ||
     !guestName ||
     !guestPhone
