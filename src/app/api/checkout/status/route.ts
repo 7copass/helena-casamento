@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
 
   let res: Response;
   try {
-    res = await fetch(`${ABACATEPAY_API}/transparents/${id}`, {
+    res = await fetch(`${ABACATEPAY_API}/transparents/list`, {
       headers: { Authorization: `Bearer ${apiKey}` },
     });
   } catch {
@@ -28,5 +28,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: json.error ?? "Erro ao consultar status" }, { status: 502 });
   }
 
-  return NextResponse.json({ status: json.data?.status ?? json.data?.payment_status ?? null });
+  const payment = (json.data as Array<{ id: string; status: string }> | null)?.find(
+    (p) => p.id === id
+  );
+
+  return NextResponse.json({ status: payment?.status ?? null });
 }
