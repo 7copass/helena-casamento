@@ -21,11 +21,13 @@ export async function POST(req: NextRequest) {
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      amount,
-      description: giftName,
-      expiresIn: 3600,
-      customer: { name: guestName, cellphone: guestPhone },
-      metadata: { giftId, giftName, guestName, guestPhone },
+      method: "PIX",
+      data: {
+        amount,
+        description: giftName,
+        expiresIn: 3600,
+        metadata: { giftId, giftName, guestName, guestPhone },
+      },
     }),
   });
 
