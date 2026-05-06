@@ -28,22 +28,27 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "API key não configurada" }, { status: 500 });
   }
 
-  const res = await fetch(`${ABACATEPAY_API}/transparents/create`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      method: "PIX",
-      data: {
-        amount,
-        description: giftName,
-        expiresIn: 3600,
-        metadata: { giftId, giftName, guestName, guestPhone },
+  let res: Response;
+  try {
+    res = await fetch(`${ABACATEPAY_API}/transparents/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
       },
-    }),
-  });
+      body: JSON.stringify({
+        method: "PIX",
+        data: {
+          amount,
+          description: giftName,
+          expiresIn: 3600,
+          metadata: { giftId, giftName, guestName, guestPhone },
+        },
+      }),
+    });
+  } catch {
+    return NextResponse.json({ error: "Erro de conexão com o gateway de pagamento" }, { status: 502 });
+  }
 
   const json = await res.json();
 

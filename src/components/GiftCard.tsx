@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Gift } from "@prisma/client";
 
 interface GiftCardProps {
@@ -44,6 +44,15 @@ export function GiftCard({ gift }: GiftCardProps) {
     setOpen(false);
   }
 
+  useEffect(() => {
+    if (!open) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") closeModal();
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim() || !phone.trim()) return;
@@ -77,9 +86,13 @@ export function GiftCard({ gift }: GiftCardProps) {
 
   async function handleCopy() {
     if (!pix) return;
-    await navigator.clipboard.writeText(pix.brCode);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(pix.brCode);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setError("Não foi possível copiar. Selecione o código manualmente.");
+    }
   }
 
   return (
@@ -135,28 +148,32 @@ export function GiftCard({ gift }: GiftCardProps) {
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                   <div className="flex flex-col gap-1">
-                    <label className="text-[10px] font-sans tracking-[0.15em] uppercase text-foreground/50">
+                    <label htmlFor="guest-name" className="text-[10px] font-sans tracking-[0.15em] uppercase text-foreground/50">
                       Seu nome
                     </label>
                     <input
+                      id="guest-name"
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
-                      className="border border-primary/20 px-3 py-2 text-sm font-serif text-foreground focus:outline-none focus:border-primary/60"
+                      disabled={loading}
+                      className="border border-primary/20 px-3 py-2 text-sm font-serif text-foreground focus:outline-none focus:border-primary/60 disabled:opacity-50"
                       placeholder="Nome completo"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[10px] font-sans tracking-[0.15em] uppercase text-foreground/50">
+                    <label htmlFor="guest-phone" className="text-[10px] font-sans tracking-[0.15em] uppercase text-foreground/50">
                       Telefone / WhatsApp
                     </label>
                     <input
+                      id="guest-phone"
                       type="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       required
-                      className="border border-primary/20 px-3 py-2 text-sm font-serif text-foreground focus:outline-none focus:border-primary/60"
+                      disabled={loading}
+                      className="border border-primary/20 px-3 py-2 text-sm font-serif text-foreground focus:outline-none focus:border-primary/60 disabled:opacity-50"
                       placeholder="(11) 99999-9999"
                     />
                   </div>
