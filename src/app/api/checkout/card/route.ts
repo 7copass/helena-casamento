@@ -84,5 +84,10 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  return NextResponse.json({ url: json.data.url });
+  const url = json.data?.url;
+  if (!url) {
+    return NextResponse.json({ error: "Resposta inválida do gateway" }, { status: 502 });
+  }
+
+  return NextResponse.json({ url });
 }
