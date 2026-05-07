@@ -48,6 +48,11 @@ export function Hero() {
             &ldquo;Entre encontros e escolhas, escolhemos um ao outro todos os dias&rdquo;
           </p>
 
+          {/* Welcome message */}
+          <p className="font-serif text-white/75 text-xs sm:text-sm text-center max-w-sm mb-6 leading-relaxed drop-shadow-sm px-2">
+            Sejam muito bem-vindos ao nosso site! Estamos muito felizes em compartilhar esse momento tão especial com pessoas que fazem parte da nossa história. Criamos esse espaço com muito carinho para reunir algumas informações do nosso grande dia e também nossa lista de presentes.
+          </p>
+
           {/* Date */}
           <p className="text-white/70 text-[10px] sm:text-xs tracking-[0.3em] uppercase font-sans font-medium mb-8">
             30 · Maio · 2026
