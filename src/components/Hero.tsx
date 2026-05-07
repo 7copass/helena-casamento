@@ -43,6 +43,11 @@ export function Hero() {
             Maria Helena
           </h1>
 
+          {/* Quote */}
+          <p className="font-serif italic text-white/60 text-xs sm:text-sm text-center max-w-xs mb-4 drop-shadow-sm">
+            &ldquo;Entre encontros e escolhas, escolhemos um ao outro todos os dias&rdquo;
+          </p>
+
           {/* Date */}
           <p className="text-white/70 text-[10px] sm:text-xs tracking-[0.3em] uppercase font-sans font-medium mb-8">
             30 · Maio · 2026
