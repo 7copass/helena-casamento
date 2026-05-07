@@ -106,6 +106,9 @@ export async function POST(req: NextRequest) {
   }
 
   // 3. Create checkout with installments
+  // Minimum R$10 per installment — cap at what the amount allows, max 12
+  const maxInstallments = Math.min(12, Math.max(1, Math.floor(amount / 1000)));
+
   let checkoutRes: Response;
   try {
     checkoutRes = await fetch(`${ABACATEPAY_V2}/checkouts/create`, {
@@ -115,7 +118,7 @@ export async function POST(req: NextRequest) {
         items: [{ id: productId, quantity: 1 }],
         methods: ["CARD"],
         frequency: "ONE_TIME",
-        card: { maxInstallments: 12 },
+        card: { maxInstallments },
         customerId,
         returnUrl: "https://helena-casamento.vercel.app",
         completionUrl: "https://helena-casamento.vercel.app",
