@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
         completionUrl: "https://helena-casamento.vercel.app",
         methods: ["CARD"],
         frequency: "ONE_TIME",
-        maxInstallments: 12,
+        card: { maxInstallments: 12 },
       }),
     });
   } catch {
