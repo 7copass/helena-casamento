@@ -173,7 +173,7 @@ export function GiftCard({ gift }: GiftCardProps) {
             {gift.name}
           </h3>
           <div className="pt-4 border-t border-primary/10 flex items-center justify-between gap-3">
-            <span className="font-serif text-lg md:text-xl text-secondary font-semibold">
+            <span className="font-serif text-lg md:text-xl text-secondary font-semibold" suppressHydrationWarning>
               {formattedPrice}
             </span>
             <button
@@ -211,7 +211,7 @@ export function GiftCard({ gift }: GiftCardProps) {
                 >
                   {gift.name}
                 </h2>
-                <p className="font-serif text-lg text-secondary font-semibold mb-6">
+                <p className="font-serif text-lg text-secondary font-semibold mb-6" suppressHydrationWarning>
                   {formattedPrice}
                 </p>
 
