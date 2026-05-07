@@ -8,8 +8,7 @@ export const revalidate = 60;
 export default async function Home() {
   // MOCK DATA — Todos os 44 presentes do PRD
   const gifts = [
-    { id: 99, name: 'Presente de teste (R$10)', price: 10.00, category: 'test', active: true, display_order: 0, image_url: null, description: null, created_at: new Date() },
-    { id: 1, name: 'Deus te iluminou e você resolveu dar uma boa ajuda na nossa lua de mel', price: 3808.97, category: 'honeymoon', active: true, display_order: 1, image_url: null, description: null, created_at: new Date() },
+{ id: 1, name: 'Deus te iluminou e você resolveu dar uma boa ajuda na nossa lua de mel', price: 3808.97, category: 'honeymoon', active: true, display_order: 1, image_url: null, description: null, created_at: new Date() },
     { id: 2, name: 'Cota para falar mal da festa', price: 3121.42, category: 'funny', active: true, display_order: 2, image_url: null, description: null, created_at: new Date() },
     { id: 3, name: 'Passagens aéreas para a lua de mel dos noivos (ida e volta)', price: 2212.97, category: 'honeymoon', active: true, display_order: 3, image_url: null, description: null, created_at: new Date() },
     { id: 4, name: 'Parada nas Ilhas Maldivas na volta', price: 1716.78, category: 'honeymoon', active: true, display_order: 4, image_url: null, description: null, created_at: new Date() },
