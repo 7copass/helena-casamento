@@ -34,7 +34,7 @@ export function EventInfo() {
               Alter do Chão
             </p>
             <a
-              href="https://maps.app.goo.gl/Bj6mQUoVcNgPuFVA9?g_st=ipc"
+              href="https://maps.app.goo.gl/cF4RTsbK1X6QAGya9?g_st=ipc"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-auto inline-flex items-center text-[10px] md:text-xs font-sans font-medium text-primary hover:text-primary/70 transition-colors uppercase tracking-[0.15em]"
@@ -61,7 +61,7 @@ export function EventInfo() {
               Alter do Chão
             </p>
             <a
-              href="https://maps.app.goo.gl/Bj6mQUoVcNgPuFVA9?g_st=ipc"
+              href="https://maps.app.goo.gl/cF4RTsbK1X6QAGya9?g_st=ipc"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-auto inline-flex items-center text-[10px] md:text-xs font-sans font-medium text-primary hover:text-primary/70 transition-colors uppercase tracking-[0.15em]"
